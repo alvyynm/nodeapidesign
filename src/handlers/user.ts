@@ -26,4 +26,7 @@ export const signIn = async (req, res) => {
     res.status(401).json({ message: "Invalid credentials" });
     return;
   }
+
+  const token = createJWT(user);
+  res.json({ token });
 };
