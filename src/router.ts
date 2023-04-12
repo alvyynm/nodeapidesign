@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { body, oneOf, validationResult } from "express-validator";
+import { handleInputErrors } from "./utils/middleware";
 
 const router = Router();
 
@@ -8,20 +9,18 @@ router.get("/product", (req, res, next) => {
   res.status(200).json({ message: "Success" });
 });
 router.get("/product/:id", () => {});
-router.put("/product/:id", [body("name").isString()], (req, res, next) => {
-  const errors = validationResult(req);
-
-  if (!errors.isEmpty()) {
-    res.status(400).json({ errors: errors.array() });
-  }
-});
-router.post("/product", [body("name").isString()], (req, res, next) => {
-  const errors = validationResult(req);
-
-  if (!errors.isEmpty()) {
-    res.status(400).json({ errors: errors.array() });
-  }
-});
+router.put(
+  "/product/:id",
+  [body("name").isString()],
+  handleInputErrors,
+  (req, res, next) => {}
+);
+router.post(
+  "/product",
+  [body("name").isString()],
+  handleInputErrors,
+  (req, res, next) => {}
+);
 router.delete("/product/:id", () => {});
 
 // Update routes
@@ -35,24 +34,14 @@ router.put(
     body("status").isIn(["IN_PROGRESS", "SHIPPED", "DEPRECATED"]).optional(),
     body("version").optional(),
   ],
-  (req, res, next) => {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.array() });
-    }
-  }
+  handleInputErrors,
+  (req, res, next) => {}
 );
 router.post(
   "/update",
   [body("title").exists().isString(), body("body").exists().isString()],
-  (req, res, next) => {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.array() });
-    }
-  }
+  handleInputErrors,
+  (req, res, next) => {}
 );
 router.delete("/update/:id", () => {});
 
@@ -65,13 +54,8 @@ router.put(
     body("name").optional().isString(),
     body("description").optional().isString(),
   ],
-  (req, res, next) => {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.array() });
-    }
-  }
+  handleInputErrors,
+  (req, res, next) => {}
 );
 router.post(
   "/updatepoint",
@@ -80,13 +64,8 @@ router.post(
     body("description").isString(),
     body("updateId").exists().isString(),
   ],
-  (req, res, next) => {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.array() });
-    }
-  }
+  handleInputErrors,
+  (req, res, next) => {}
 );
 router.delete("/updatepoint/:id", () => {});
 
