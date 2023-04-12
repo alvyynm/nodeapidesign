@@ -20,4 +20,9 @@ app.get("/", (req, res, next) => {
 app.use("/api", protect, router);
 app.post("/user", createNewUser);
 app.post("/signin", signIn);
+
+app.use((err, req, res, next) => {
+  console.log(err);
+  res.status(500).json({ message: "Ooops something went wrong" });
+});
 export default app;
