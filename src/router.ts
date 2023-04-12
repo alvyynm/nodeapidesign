@@ -44,7 +44,11 @@ router.put(
 );
 router.post(
   "/update",
-  [body("title").exists().isString(), body("body").exists().isString()],
+  [
+    body("title").exists().isString(),
+    body("body").exists().isString(),
+    body("productId").exists().isString(),
+  ],
   handleInputErrors,
   (req, res, next) => {}
 );
