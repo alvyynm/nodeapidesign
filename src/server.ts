@@ -21,8 +21,14 @@ app.use("/api", protect, router);
 app.post("/user", createNewUser);
 app.post("/signin", signIn);
 
+// error handler
 app.use((err, req, res, next) => {
-  console.log(err);
-  res.status(500).json({ message: "Ooops something went wrong" });
+  if (err.type === "auth") {
+    res.status(401).json({ message: "Unauthorized" });
+  } else if (err.type === "input") {
+    res.status(400).json({ message: "Invalid input" });
+  } else {
+    res.status(500).json({ message: "Ooops something went wrong" });
+  }
 });
 export default app;
