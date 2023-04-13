@@ -1,3 +1,3 @@
 export default {
-  port: 5555,
+  port: process.env.PORT,
 };
